@@ -110,6 +110,20 @@ namespace Microsoft.Xna.Framework.Graphics
             _beginCalled = true;
         }
 
+        public void Begin()
+        {
+            if (_beginCalled)
+                throw new InvalidOperationException("Begin cannot be called again until End has been successfully called.");
+
+            // Setup things now so a user can change them.
+            if (_sortMode == SpriteSortMode.Immediate)
+            {
+                Setup();
+            }
+
+            _beginCalled = true;
+        }
+
         /// <summary>
         /// Flushes all batched text and sprites to the screen.
         /// </summary>
@@ -677,7 +691,7 @@ namespace Microsoft.Xna.Framework.Graphics
             var offset = Vector2.Zero;
             var firstGlyphOfLine = true;
 
-            var capitalHeight = _yUp ? spriteFont.Glyphs['A'].Cropping.Height : 0;
+            var capitalHeight = _yUp ? spriteFont.Glyphs['X'].Cropping.Height : 0;
 
             for (var i = 0; i < text.Length; ++i)
             {
