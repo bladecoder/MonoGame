@@ -110,7 +110,7 @@ namespace Microsoft.Xna.Framework.Graphics
             _beginCalled = true;
         }
 
-        public void Begin()
+        public void BeginContinue()
         {
             if (_beginCalled)
                 throw new InvalidOperationException("Begin cannot be called again until End has been successfully called.");
@@ -733,7 +733,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 p.X += currentGlyph.Cropping.X;
 
                 if (_yUp)
-                    p.Y += capitalHeight - currentGlyph.Cropping.Y - currentGlyph.Cropping.Height;
+                    p.Y += spriteFont.LineSpacing - currentGlyph.Cropping.Height - currentGlyph.Cropping.Y;// capitalHeight * 2 - currentGlyph.Cropping.Y - currentGlyph.Cropping.Height;
                 else
                     p.Y += currentGlyph.Cropping.Y;
 
@@ -919,7 +919,11 @@ namespace Microsoft.Xna.Framework.Graphics
 
                 if (flippedVert)
                     p.Y += currentGlyph.BoundsInTexture.Height - spriteFont.LineSpacing;
-                p.Y += currentGlyph.Cropping.Y;
+
+                if (_yUp)
+                    p.Y += spriteFont.LineSpacing - currentGlyph.Cropping.Height - currentGlyph.Cropping.Y;
+                else
+                    p.Y += currentGlyph.Cropping.Y;
 
                 Vector2.Transform(ref p, ref transformation, out p);
 
