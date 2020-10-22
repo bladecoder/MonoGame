@@ -57,7 +57,7 @@ namespace MonoGame.Utilities.Png
 
             try
             {
-                using (var deflateStream = new ZlibStream(new MemoryStream(encodedPixelData), CompressionMode.Compress))
+                using (var deflateStream = new ZlibStream(new MemoryStream(encodedPixelData), CompressionMode.Compress, CompressionLevel.None))
                 {
                     deflateStream.CopyTo(compressedPixelData);
                 }
@@ -117,7 +117,10 @@ namespace MonoGame.Utilities.Png
         private byte[] GetOptimalFilteredScanline(byte[] rawScanline, byte[] previousScanline, int bytesPerPixel)
         {
             var candidates = new List<Tuple<byte[], int>>();
-            
+
+            var none = NoneFilter.Encode(rawScanline);
+            candidates.Add(new Tuple<byte[], int>(none, CalculateTotalVariation(none)));
+
             var sub = SubFilter.Encode(rawScanline, bytesPerPixel);
             candidates.Add(new Tuple<byte[], int>(sub, CalculateTotalVariation(sub)));
 
@@ -130,7 +133,7 @@ namespace MonoGame.Utilities.Png
             var paeth = PaethFilter.Encode(rawScanline, previousScanline, bytesPerPixel);
             candidates.Add(new Tuple<byte[], int>(paeth, CalculateTotalVariation(paeth)));
 
-            int lowestTotalVariation = Int32.MaxValue;
+            int lowestTotalVariation = int.MaxValue;
             int lowestTotalVariationIndex = 0;
 
             for (int i = 0; i < candidates.Count; i++)
