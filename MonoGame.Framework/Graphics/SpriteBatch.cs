@@ -34,12 +34,13 @@ namespace Microsoft.Xna.Framework.Graphics
         Vector2 _texCoordTL = new Vector2(0, 0);
         Vector2 _texCoordBR = new Vector2(0, 0);
 
-        bool _yUp = false;
         #endregion
+
+        public bool YUp = false;
 
         internal static bool NeedsHalfPixelOffset;
 
-        public SpriteBatch(GraphicsDevice graphicsDevice, bool yUp) : this(graphicsDevice) => _yUp = yUp;
+        public SpriteBatch(GraphicsDevice graphicsDevice, bool yUp) : this(graphicsDevice) => YUp = yUp;
 
         /// <summary>
         /// Constructs a <see cref="SpriteBatch"/>.
@@ -156,7 +157,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 // sprite batch layer depth is the opposite (z = 0 is in front of z = 1).
                 // --> We get the correct matrix with near plane 0 and far plane -1.
 
-                if (_yUp)
+                if (YUp)
                 {
                     Matrix.CreateOrthographicOffCenter(0, vp.Width, 0, vp.Height, 0, 1, out _projection);
                 }
@@ -351,7 +352,7 @@ namespace Microsoft.Xna.Framework.Graphics
                         color,
                         _texCoordTL,
                         _texCoordBR,
-                        layerDepth, _yUp);
+                        layerDepth, YUp);
             }
             else
             {
@@ -366,7 +367,7 @@ namespace Microsoft.Xna.Framework.Graphics
                         color,
                         _texCoordTL,
                         _texCoordBR,
-                        layerDepth, _yUp);
+                        layerDepth, YUp);
             }
 
             FlushIfNeeded();
@@ -488,7 +489,7 @@ namespace Microsoft.Xna.Framework.Graphics
                         color,
                         _texCoordTL,
                         _texCoordBR,
-                        layerDepth, _yUp);
+                        layerDepth, YUp);
             }
             else
             {
@@ -503,7 +504,7 @@ namespace Microsoft.Xna.Framework.Graphics
                         color,
                         _texCoordTL,
                         _texCoordBR,
-                        layerDepth, _yUp);
+                        layerDepth, YUp);
             }
 
             FlushIfNeeded();
@@ -565,7 +566,7 @@ namespace Microsoft.Xna.Framework.Graphics
                      color,
                      _texCoordTL,
                      _texCoordBR,
-                     0, _yUp);
+                     0, YUp);
 
             FlushIfNeeded();
         }
@@ -608,7 +609,7 @@ namespace Microsoft.Xna.Framework.Graphics
                      color,
                      _texCoordTL,
                      _texCoordBR,
-                     0, _yUp);
+                     0, YUp);
 
             FlushIfNeeded();
         }
@@ -636,7 +637,7 @@ namespace Microsoft.Xna.Framework.Graphics
                      color,
                      Vector2.Zero,
                      Vector2.One,
-                     0, _yUp);
+                     0, YUp);
 
             FlushIfNeeded();
         }
@@ -664,7 +665,7 @@ namespace Microsoft.Xna.Framework.Graphics
                      color,
                      Vector2.Zero,
                      Vector2.One,
-                     0, _yUp);
+                     0, YUp);
 
             FlushIfNeeded();
         }
@@ -691,7 +692,7 @@ namespace Microsoft.Xna.Framework.Graphics
             var offset = Vector2.Zero;
             var firstGlyphOfLine = true;
 
-            var capitalHeight = _yUp ? spriteFont.Glyphs['X'].Cropping.Height : 0;
+            var capitalHeight = YUp ? spriteFont.Glyphs['X'].Cropping.Height : 0;
 
             for (var i = 0; i < text.Length; ++i)
             {
@@ -732,7 +733,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 var p = offset;
                 p.X += currentGlyph.Cropping.X;
 
-                if (_yUp)
+                if (YUp)
                     p.Y += spriteFont.LineSpacing - currentGlyph.Cropping.Height - currentGlyph.Cropping.Y;// capitalHeight * 2 - currentGlyph.Cropping.Y - currentGlyph.Cropping.Height;
                 else
                     p.Y += currentGlyph.Cropping.Y;
@@ -755,7 +756,7 @@ namespace Microsoft.Xna.Framework.Graphics
                          color,
                          _texCoordTL,
                          _texCoordBR,
-                         0, _yUp);
+                         0, YUp);
 
                 offset.X += currentGlyph.Width + currentGlyph.RightSideBearing;
             }
@@ -920,7 +921,7 @@ namespace Microsoft.Xna.Framework.Graphics
                 if (flippedVert)
                     p.Y += currentGlyph.BoundsInTexture.Height - spriteFont.LineSpacing;
 
-                if (_yUp)
+                if (YUp)
                     p.Y += spriteFont.LineSpacing - currentGlyph.Cropping.Height - currentGlyph.Cropping.Y;
                 else
                     p.Y += currentGlyph.Cropping.Y;
@@ -958,7 +959,7 @@ namespace Microsoft.Xna.Framework.Graphics
                             color,
                             _texCoordTL,
                             _texCoordBR,
-                            layerDepth, _yUp);
+                            layerDepth, YUp);
                 }
                 else
                 {
@@ -973,7 +974,7 @@ namespace Microsoft.Xna.Framework.Graphics
                             color,
                             _texCoordTL,
                             _texCoordBR,
-                            layerDepth, _yUp);
+                            layerDepth, YUp);
                 }
 
                 offset.X += currentGlyph.Width + currentGlyph.RightSideBearing;
@@ -1062,7 +1063,7 @@ namespace Microsoft.Xna.Framework.Graphics
                          color,
                          _texCoordTL,
                          _texCoordBR,
-                         0, _yUp);
+                         0, YUp);
 
                 offset.X += currentGlyph.Width + currentGlyph.RightSideBearing;
             }
@@ -1260,7 +1261,7 @@ namespace Microsoft.Xna.Framework.Graphics
                             color,
                             _texCoordTL,
                             _texCoordBR,
-                            layerDepth, _yUp);
+                            layerDepth, YUp);
                 }
                 else
                 {
@@ -1275,7 +1276,7 @@ namespace Microsoft.Xna.Framework.Graphics
                             color,
                             _texCoordTL,
                             _texCoordBR,
-                            layerDepth, _yUp);
+                            layerDepth, YUp);
                 }
 
                 offset.X += currentGlyph.Width + currentGlyph.RightSideBearing;
